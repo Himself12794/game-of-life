@@ -7,16 +7,17 @@ object GameLife2 {
   def mappify(str: String, pad: Char = ' '): HashMap[(Int,Int), Char] = {
     val its = new HashMap[(Int,Int), Char]
     var x,y = 0
-    var items = str.stripMargin split("\n");
+    var items = str.stripMargin split("\n") toBuffer
     val m = items.reduceLeft((a,b) => if (a.length > b.length) a else b ).length
-    items = items map { _ padTo(m, pad) }
+    if (items.length < 100) 0 to 100 - items.length foreach { _ => items append ""  }
+    items = items map { _ padTo(100, pad) }
     items foreach { z => z foreach { c => its put((x,y),c); x += 1}; y += 1; x = 0 }
     its
   }
   
 }
 
-class GameLife2(m: String, living: Char = 'X', dead: Char = ' ') {
+class GameLife2(m: String, val living: Char = 'X', val dead: Char = ' ') {
   
   private var cells = GameLife2.mappify(m, dead) 
   private val hw = cells.keySet reduceLeft { (a,b) => (a._1 max b._1, a._2 max b._2) }
@@ -34,7 +35,7 @@ class GameLife2(m: String, living: Char = 'X', dead: Char = ' ') {
     am
   }
   
-  def doCycles(i: Int) = 0 to i foreach { x => println(this); doCycle; Thread.sleep(500);clearConsole} 
+  def doCycles(i: Int) = 0 to i foreach { _ => println(this); doCycle;Thread.sleep(500);clearConsole} 
   
   def apply(x: Int, y: Int) = {
     cells.get((x,y)).get
@@ -57,26 +58,13 @@ class GameLife2(m: String, living: Char = 'X', dead: Char = ' ') {
   
   override def toString = {
     val str = Array.ofDim[Char](height,width)
-    cells foreach { 
-      cell => {
-        val dims = cell._1
-        str(dims._2)(dims._1) = cell._2
-      }
-    }
-    val b = new StringBuilder
-    str foreach {
-      st => {
-        
-        b ++= st.mkString
-        if (st != str.last) b ++= "\n"
-        
-      }
-    }
-    b.toString
+    val f = "*" * (width + 2)
+    cells foreach { cell => { str(cell._1._2)(cell._1._1) = cell._2 } }
+    f + "\n" + (str map { "*" ++ _.mkString  ++ "*\n" }).mkString + f
   }
   
   def clearConsole = print("\n" * 9)
   
-  
+  def getCells = cells
 }
 

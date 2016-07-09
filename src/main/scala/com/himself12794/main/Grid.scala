@@ -37,13 +37,13 @@ object Grid extends SimpleSwingApplication {
                        |
                         """
   
-  private val t2 = """|                          X
-                      |                        X X           
+  private val t2 = """|                         X
+                      |                       X X           
                       |             XX      XX            XX 
                       |            X   X    XX            XX 
                       | XX        X     X   XX                  
-                      | XX        X   X XX     X X              
-                      |           X     X        X              
+                      | XX        X   X XX    X X              
+                      |           X     X       X              
                       |            X   X                        
                       |             XX                          
                       |                                         
@@ -74,7 +74,7 @@ object Grid extends SimpleSwingApplication {
   
   def top = new MainFrame {
     val toggle = 0
-    val timer = new Timer(100, Swing.ActionListener { x => doCycle })
+    val timer = new Timer(63, Swing.ActionListener { _ => doCycle })
     contents = pan
     timer.start
   }
