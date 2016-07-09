@@ -4,16 +4,27 @@ object Test extends App {
   
   println("Hello, World")
   
-  Main.main("Do some more stuff", "Hello, World", "Integration of Java into Scala")
+  //Main.main("Do some more stuff", "Hello, World", "Integration of Java into Scala")
+  wiggle.demo.ShipDemo.main(args)
+  System.out.println("d'oh");
   
   doSomeStuff
   println(doRecursiveMath(5))
   
+  println("Temp conversion")
+  
+  println(toCelsius(212))
+  println(toFahrenheit(100))
+  
+  println(performFunction(f))
+  
+  val mult = multiplier(5)
+  
+  println(mult(6))
+  
   val l = List(5, 2, 3)
   
   def f(x: Int, y: Int) = x + y
-  
-  println(performFunction(f))
   
   def doSomeStuff = {
 
@@ -27,6 +38,8 @@ object Test extends App {
     
   }
   
+  def multiplier(x: Float) = (y: Float) => y * x
+  
   def performFunction(f: ((Int, Int) => Int)) = f(5, 5)
   
   def doMath(x: Int) = x * x
@@ -35,5 +48,9 @@ object Test extends App {
     if (x <= 1) 1
     else x * doRecursiveMath(x - 1)
   }
+  
+  def toCelsius(x: Float) = ((x - 32) * 5)/9
+  
+  def toFahrenheit(x: Float) = ((x * 9)/5) + 32 
   
 }
