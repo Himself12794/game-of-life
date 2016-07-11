@@ -14,23 +14,6 @@ object GameLife {
  		thing(4)(5) = 'X'
   }
   
-  def main(args: Array[String]): Unit = {
-    
-    val g2 = new GameLife2( """|     
-                               | XXX 
-                               |     
-                               |     
-                               |     
-                               |     
-                               |     
-                               |     
-                               |     
-                               |""")
-
-    g2 doCycles 4
-  }
-
-  
 }
 
 /**

@@ -1,29 +1,32 @@
 package com.himself12794.main
 
-import java.awt.{Graphics2D,Color,Dimension}
-import scala.swing._
+import java.awt.Color
+import java.awt.Dimension
+import java.awt.Graphics2D
+
 import scala.collection.mutable.HashMap
+import scala.swing._
+
 import javax.swing.Timer
-import java.awt.event.ActionListener
 
-class DataPanel(var data: Array[Array[Color]]) extends Panel {
-
+class DataPanel(val gl: GameLife2, val mapping: HashMap[Boolean,Color]) extends Panel {
+  
   override def paintComponent(g: Graphics2D) {
     
-    val dx = g.getClipBounds.width.toFloat  / data.length
-    val dy = g.getClipBounds.height.toFloat / data.map(_.length).max
+    val dx = g.getClipBounds.width.toFloat  / gl.width
+    val dy = g.getClipBounds.height.toFloat / gl.height
     for {
-      x <- 0 until data.length
-      y <- 0 until data(x).length
+      x <- 0 until gl.width
+      y <- 0 until gl.height
       x1 = (x * dx).toInt
       y1 = (y * dy).toInt
       x2 = ((x + 1) * dx).toInt
       y2 = ((y + 1) * dy).toInt
     } {
-      data(x)(y) match {
-        case c: Color => g.setColor(c)
-        case _ => g.setColor(Color.WHITE)
-      }
+      g.setColor(mapping(gl(x,y)))
+      //gl(x,y) match {
+      //  case c: Bool => g.setColor(mapping(c))
+      //}
       g.fillRect(x1, y1, x2 - x1, y2 - y1)
     }
   }
@@ -31,44 +34,23 @@ class DataPanel(var data: Array[Array[Color]]) extends Panel {
 
 object Grid extends SimpleSwingApplication {
   
-  val mapping = new HashMap[Char,Color]
+  var cycles = 0
   
-  private val ggg = """|                                      
-                       |
-                        """
+  private val gl = new GameLife2(Shapes.gosperGlidingGun)
   
-  private val t2 = """|                         X
-                      |                       X X           
-                      |             XX      XX            XX 
-                      |            X   X    XX            XX 
-                      | XX        X     X   XX                  
-                      | XX        X   X XX    X X              
-                      |           X     X       X              
-                      |            X   X                        
-                      |             XX                          
-                      |                                         
-                      |"""
+  val mapping = new HashMap[Boolean,Color]
   
-  private val gl = new GameLife2(t2)
+  mapping.put(true, Color.WHITE)
+  mapping.put(false, Color.BLACK)
   
-  
-  mapping.put(gl.living, Color.BLACK)
-  mapping.put(gl.dead, Color.WHITE)
-  
-  def getAsArray = {
-    
-    val str = Array.ofDim[Color](gl.width,gl.height)
-    gl.getCells foreach { cell => { str(cell._1._1)(cell._1._2) = mapping(cell._2) } }
-    str
-  }
-  
-  val pan = new DataPanel(getAsArray) { preferredSize = new Dimension(600, 600) }
+  val pan = new DataPanel(gl,mapping) { preferredSize = new Dimension(600, 600) }
   
   def doCycle = {
     
     gl.doCycle
-    pan.data = getAsArray
     pan.repaint
+    println(cycles)
+    cycles += 1
     
   }
   
