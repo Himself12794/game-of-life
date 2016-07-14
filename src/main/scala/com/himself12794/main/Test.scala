@@ -5,7 +5,6 @@ object Test extends App {
   println("Hello, World")
   
   //Main.main("Do some more stuff", "Hello, World", "Integration of Java into Scala")
-  wiggle.demo.ShipDemo.main(args)
   System.out.println("d'oh");
   
   doSomeStuff

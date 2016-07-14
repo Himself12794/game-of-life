@@ -23,25 +23,14 @@ object Grid3 extends SimpleSwingApplication {
   
   def doCycle(t: Timer) = {
     
-    //if (cycles == 0) println(gl.gc)
-    
-    if (cycles == 0 || cycles == 1) {
-      //println(gl)
-      //println
-    
       gl.doCycle
       pan.repaint
       cycles += 1
-    } else { 
-      //t.stop
-      //quit
-    }
-    
   }
   
   def top = new MainFrame {
     val toggle = 0
-    val timer: Timer = new Timer(63, Swing.ActionListener { _ => doCycle(timer) })
+    val timer: Timer = new Timer(1000, Swing.ActionListener { _ => doCycle(timer) })
     contents = pan
     timer.start
   }
