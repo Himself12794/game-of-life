@@ -8,7 +8,7 @@ object GameLife2 {
     val its = new HashMap[(Int,Int), Boolean]
     var x,y = 0
     var items = str.stripMargin split("\n") toBuffer
-    val m = items.reduceLeft((a,b) => if (a.length > b.length) a else b ).length
+    val m = items.reduceLeft((a,b) => a max b ).length
     if (items.length < 100) 0 to 100 - items.length foreach { _ => items append ""  }
     items = items map { _ padTo(100, pad) }
     items foreach { z => z foreach { c => its put((x,y),c == 'X'); x += 1}; y += 1; x = 0 }
