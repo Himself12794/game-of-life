@@ -56,7 +56,7 @@ object Grid extends SimpleSwingApplication {
   
   def top = new MainFrame {
     val toggle = 0
-    val timer = new Timer(63, Swing.ActionListener { _ => doCycle })
+    val timer = new Timer(1, Swing.ActionListener { _ => doCycle })
     contents = pan
     timer.start
   }
